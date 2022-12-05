@@ -21,7 +21,7 @@ namespace graphx{
             ~Window();
 
             void update();
-
+            void clear() const;
             inline bool closed() const { return glfwWindowShouldClose(m_Window); }
 
             // setters
