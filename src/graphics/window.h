@@ -1,4 +1,5 @@
 #pragma once
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -7,11 +8,11 @@ class Window{
         GLFWwindow * m_Window;
 
         int m_Width, m_Height;
-        char * m_Title;
+        const char * m_Title;
 
     // public member functions
     public:
-        Window(char * title, int width, int height);
+        Window(const char * title, int width, int height);
         ~Window();
         void update();
 

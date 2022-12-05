@@ -24,3 +24,9 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} glfw)
 target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
+
+# Add directories
+add_subdirectory(src/graphics)
+
+# My libraries
+target_link_libraries(${PROJECT_NAME} graphics)

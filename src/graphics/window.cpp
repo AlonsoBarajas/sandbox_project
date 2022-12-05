@@ -1,6 +1,6 @@
 #include "window.h"
 
-Window::Window(char * title, int width, int height):
+Window::Window(const char * title, int width, int height):
     m_Title(title), m_Width(width), m_Height(height)
 {
     if(!init()) glfwTerminate;
@@ -23,8 +23,8 @@ bool Window::init(){
     glfwMakeContextCurrent(m_Window);
 
     // initialize GLEW
-    if(glewInit() != GLEW_OK)
-        return false;
+    // if(glewInit() != GLEW_OK)
+    //     return false;
 
 
     return true;
