@@ -3,23 +3,34 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-class Window{
-    private:
-        GLFWwindow * m_Window;
+namespace graphx{
+    class Window{
+        private:
+            GLFWwindow * m_Window;
 
-        int m_Width, m_Height;
-        const char * m_Title;
+            int m_Width;
+            int m_Height;
+            const char * m_Title;
 
-    // public member functions
-    public:
-        Window(const char * title, int width, int height);
-        ~Window();
-        void update();
+        // public member functions
+        public:
+            Window(const char * title, int width, int height);
+            ~Window();
 
-        inline bool closed() const { return glfwWindowShouldClose(m_Window); }
+            void update();
 
-    // private member functions
-    private:
-        bool init();
+            inline bool closed() const { return glfwWindowShouldClose(m_Window); }
 
-};
+            // setters
+            inline void setHeight(int height){ m_Height = height; }
+            inline void setWidth(int width){ m_Width = width; }
+
+        // private member functions
+        private:
+            bool init();
+
+    }; // Window
+
+    void window_resize_callback(GLFWwindow * win, int widht, int height);
+
+}

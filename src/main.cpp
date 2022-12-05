@@ -5,7 +5,7 @@
 int main (void){
 
 
-    Window win("Hello james", 640, 480);
+    graphx::Window win("Hello james", 640, 480);
 
     while (!win.closed()){
         win.update();

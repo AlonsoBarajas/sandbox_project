@@ -1,53 +1,76 @@
 #include "window.h"
 #include <iostream>
 
-Window::Window(const char * title, int width, int height):
-    m_Title(title), m_Width(width), m_Height(height)
-{
-    if(!init()) glfwTerminate;
-}
+namespace graphx{
 
-bool Window::init(){
-    
-    // initialize GLFW
-    if(!glfwInit()){
-std::cerr << "GLFW was not loaded correctly. Exiting ...\n";
-        return false;
+    Window::Window(const char * title, int width, int height):
+        m_Title(title), m_Width(width), m_Height(height)
+    {
+        if(!init()) glfwTerminate;
     }
 
-    m_Window = glfwCreateWindow(m_Width, m_Height, m_Title, NULL, NULL);
+    bool Window::init(){
+        
+        // initialize GLFW
+        if(!glfwInit()){
+    std::cerr << "GLFW was not loaded correctly. Exiting ...\n";
+            return false;
+        }
 
-    // check if the window was properly created
-    if(!m_Window){
-std::cerr << "Window was not succesfully created. Exiting ...\n";
+        m_Window = glfwCreateWindow(m_Width, m_Height, m_Title, NULL, NULL);
+
+        // check if the window was properly created
+        if(!m_Window){
+    std::cerr << "Window was not succesfully created. Exiting ...\n";
+            glfwTerminate();
+            return false;
+        }
+
+        // tell OpenGL what is the window size
+        glViewport(0,0,m_Width, m_Height);
+
+        // bind GLFW window to an object of the Window class
+        glfwSetWindowUserPointer(m_Window, this);
+
+        // bind resize function to GLFW callback
+        glfwSetFramebufferSizeCallback(m_Window, window_resize_callback);
+
+        // make the window the current OpenGL context
+        glfwMakeContextCurrent(m_Window);
+
+        // initialize GLEW
+        if(glewInit() != GLEW_OK){
+    std::cerr << "GLEW was not loaded correctly. Exiting ...\n";
+            return false;
+        }
+
+        return true;
+    }
+
+    void Window::update(){
+
+        //DEBUG
+        std::cout << m_Width << " x " << m_Height << std::endl;
+
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glfwSwapBuffers(m_Window);
+
+        glfwPollEvents();
+    }
+
+    Window::~Window(){
         glfwTerminate();
-        return false;
     }
 
-    // tell OpenGL what is the window size
-    glViewport(0,0,m_Width, m_Height);
+    void window_resize_callback(GLFWwindow * win, int width, int height){
+        Window* window = (Window*)glfwGetWindowUserPointer(win);
 
+        window->setHeight(height);
+        window->setWidth(width);
 
-    glfwMakeContextCurrent(m_Window);
-
-    //initialize GLEW
-    if(glewInit() != GLEW_OK){
-std::cerr << "GLEW was not loaded correctly. Exiting ...\n";
-        return false;
+        glViewport(0,0, width, height);        
     }
 
-    return true;
-}
 
-void Window::update(){
-
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    glfwSwapBuffers(m_Window);
-
-    glfwPollEvents();
-}
-
-Window::~Window(){
-    glfwTerminate();
 }
