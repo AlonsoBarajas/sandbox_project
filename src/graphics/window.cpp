@@ -24,6 +24,10 @@ std::cerr << "Window was not succesfully created. Exiting ...\n";
         return false;
     }
 
+    // tell OpenGL what is the window size
+    glViewport(0,0,m_Width, m_Height);
+
+
     glfwMakeContextCurrent(m_Window);
 
     //initialize GLEW
