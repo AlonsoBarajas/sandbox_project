@@ -14,19 +14,16 @@ find_package(OpenGL REQUIRED)
 
 
 
+
 # Add executable files
-SET(SOURCE_FILES src/main.cpp)
+SET(SOURCE_FILES src/main.cpp src/graphics/window.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 
 # Linking libraries
-target_link_libraries(${PROJECT_NAME} glfw)
-target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
-target_link_libraries(${PROJECT_NAME} OpenGL::GL)
-
-# Add directories
-add_subdirectory(src/graphics)
-
-# My libraries
-target_link_libraries(${PROJECT_NAME} graphics)
+target_link_libraries(${PROJECT_NAME}     
+    GLEW
+    glfw
+    OpenGL::GL
+)
