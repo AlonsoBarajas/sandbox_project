@@ -26,6 +26,9 @@ namespace graphx{
             return false;
         }
 
+        // set minimum window size
+        glfwSetWindowSizeLimits(m_Window, MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT, GLFW_DONT_CARE, GLFW_DONT_CARE);
+
         // tell OpenGL what is the window size
         glViewport(0,0,m_Width, m_Height);
 
@@ -48,10 +51,6 @@ namespace graphx{
     }
 
     void Window::update(){
-
-        //DEBUG
-        std::cout << m_Width << " x " << m_Height << std::endl;
-
         glClear(GL_COLOR_BUFFER_BIT);
 
         glfwSwapBuffers(m_Window);

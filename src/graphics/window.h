@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 
 namespace graphx{
+
+    constexpr int MIN_WINDOW_HEIGHT = 480;
+    constexpr int MIN_WINDOW_WIDTH = 640;
     class Window{
         private:
             GLFWwindow * m_Window;

@@ -11,7 +11,5 @@ int main (void){
         win.update();
     }
 
-
-
     return 0;
 }
