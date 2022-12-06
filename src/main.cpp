@@ -175,13 +175,8 @@ std::cerr << "ERROR::SHADER::PROGRAM::LINKER_FAILED\n"
         // render loop
         glUseProgram(shaderProgram);
 
-        for (GLuint vao : VAO){
-            glBindVertexArray(vao);
-            glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        }
-
-
+        glBindVertexArray(VAO[1]);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
         win.update();
