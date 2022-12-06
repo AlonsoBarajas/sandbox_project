@@ -1,11 +1,11 @@
 
-#include "graphics/window.h"
+#include "../../graphics/window.h"
 #include <iostream>
 
 int main (void){
 
 
-    graphx::Window win("Hello james", 640, 480);
+    graphx::Window win("Hello Triangle ex.1", 640, 480);
 
     // Hello Triangle
 
@@ -168,6 +168,8 @@ std::cerr << "ERROR::SHADER::PROGRAM::LINKER_FAILED\n"
 
     glEnableVertexAttribArray(0);
 
+    // draw in wireframe mode
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while (!win.closed()){
         win.clear();

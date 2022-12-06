@@ -1,11 +1,11 @@
 
-#include "graphics/window.h"
+#include "../../graphics/window.h"
 #include <iostream>
 
 int main (void){
 
 
-    graphx::Window win("Hello james", 640, 480);
+    graphx::Window win("Hello Triangle ex.2", 640, 480);
 
     // Hello Triangle
 
@@ -110,64 +110,62 @@ std::cerr << "ERROR::SHADER::PROGRAM::LINKER_FAILED\n"
     glDeleteShader(fragmentShader);
 
     ///////////////////////////////////////////////////////////////////
-    //              Create Vertext Buffer Object VBO
+    //              Create VBO and VAO
     ///////////////////////////////////////////////////////////////////
 
-    // definition of the triangle vertices
-    GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,     // lower left corner
-         0.5f, -0.5f, 0.0f,     // lower right corner
-         0.0f,  0.5f, 0.0f      // top
-    };
-
-    // create a vertex buffer object VBO
-    GLuint VBO[2];
-    glGenBuffers(2 , VBO);
-
-    // create Vertex Attribute Object
-    GLuint VAO[2];
-    glGenVertexArrays(2, VAO);
-
-    // bind VAO 
-    glBindVertexArray(VAO[0]);
-
-
-    // bind VBO to the current array buffer
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-
-    // this copies the data of the vertices into the currently bound array buffer i.e. VBO
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // tell OpenGL how to interpret the vertex attributes
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(GLfloat), (void*)0);
-
-    // enables the vertex attribute
-    glEnableVertexAttribArray(0);
-
-    // ..:: Exercise 1.- Draw two triangles next to each other with glDrawArrays
-    // Vertices of both triangles, no Element Buffer Object
-    GLfloat square[18] = {
+    GLfloat tri_1[9] = {
         -0.5f, -0.5f, 0.0f,     // bottom left
          0.5f, -0.5f, 0.0f,     // bottom right
         -0.5f,  0.5f, 0.0f,     // top left
+    };
 
+    GLfloat tri_2[9] = {
          0.5f, -0.5f, 0.0f,     // bottom right
          0.5f,  0.5f, 0.0f,     // top right
         -0.5f,  0.5f, 0.0f      // top left
     };
 
-    // bind VBO
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+    // create VBOs
+    GLuint VBO[2];
+    glCreateBuffers(2,VBO);
 
-    // bind VAO
-    glBindVertexArray(VAO[1]);
+    // bind VBO1
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 
-    // copy data into VBO
-    glBufferData(GL_ARRAY_BUFFER, 18 * sizeof(GLfloat), square, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void *)0);
+    // create VAOs
+    GLuint VAO[2];
+    glCreateVertexArrays(2, VAO);
 
+    // bind VAO1
+    glBindVertexArray(VAO[0]);
+
+    // send data to the VBOs
+    glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), tri_1, GL_STATIC_DRAW);
+
+    // tell opengl how to interpret our data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) 0);
+
+    // enable vertex attribute pointer
     glEnableVertexAttribArray(0);
 
+    // bind VBO2
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+
+    // bind VAO2
+    glBindVertexArray(VAO[1]);
+
+    // send data to the VBOs
+    glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), tri_2, GL_STATIC_DRAW);
+
+    // tell opengl how to interpret our data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) 0);
+
+    // enable vertex attribute pointer
+    glEnableVertexAttribArray(0);
+
+  
+    // draw in wireframe mode
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while (!win.closed()){
         win.clear();
@@ -175,9 +173,10 @@ std::cerr << "ERROR::SHADER::PROGRAM::LINKER_FAILED\n"
         // render loop
         glUseProgram(shaderProgram);
 
-        glBindVertexArray(VAO[1]);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
+        for (GLuint id : VAO){
+            glBindVertexArray(id);
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+        }
 
         win.update();
     }
