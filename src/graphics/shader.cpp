@@ -39,7 +39,7 @@ std::cerr << "Error creating vertex shader\n";
     glShaderSource(m_VertexShader, 1, &m_VertexContents, NULL);
     glCompileShader(m_VertexShader);
 
-    // check for compile errors
+    // check for compile errorssS
     if(errorCheck(m_VertexShader, GL_COMPILE_STATUS)) return false;
 
 
