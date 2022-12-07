@@ -28,7 +28,7 @@ std::cerr << "Was not able to open file "<< filename << "\n";
     memset(contents, 0, length + 1);
 
     // copy the data to the contents array
-    fread(contents, 1, length, f);
+    fread(contents, 1, length+1, f);
 
     // close the file
     fclose(f);

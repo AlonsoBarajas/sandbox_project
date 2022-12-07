@@ -3,28 +3,30 @@
 #include "../utils/fileutils.h"
 #include <GL/glew.h>
 
-class Shader{
+namespace graphx{
 
-public:
-    Shader(const char * vertexFile, const char * fragmentFile);
-    ~Shader();
+    class Shader{
 
-    bool compile();
+    public:
+        Shader(const char * vertexFile, const char * fragmentFile);
+        ~Shader();
 
-    inline void activate() { glUseProgram(m_ShaderProgram); }
+        bool compile();
 
-
-private:
-    const char * m_VertexContents;
-    const char * m_FragmentContents;
-
-    GLuint m_VertexShader;
-    GLuint m_FragmentShader;
-
-    GLuint m_ShaderProgram;
-
-    bool init(const char * vertexFile, const char * fragmentFile);
-    bool errorCheck(GLuint shaderID, GLenum status);
+        inline void activate() { glUseProgram(m_ShaderProgram); }
 
 
-};
+    private:
+        std::string m_VertexSource;
+        std::string m_FragmentSource;
+
+        GLuint m_ShaderProgram;
+
+        bool init(const char * vertexFile, const char * fragmentFile);
+        bool errorCheck(GLuint ID, GLenum status);
+
+
+    };
+
+}
+
