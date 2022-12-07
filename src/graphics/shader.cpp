@@ -98,6 +98,16 @@ std::cerr << "Linker failed!\n";
         return true;
     }
 
+    void Shader::setBool(const char * name, bool value){
+        GLint uniformLoc = glGetUniformLocation(m_ShaderProgram, name);
+
+        if(uniformLoc == -1){
+std::cerr << "Attribute " << name << "was not found\n";
+            return;
+        }
+
+        glUniform1i(uniformLoc, value);
+    }
 
     bool Shader::errorCheck(GLuint ID, GLenum status){
         GLint success;

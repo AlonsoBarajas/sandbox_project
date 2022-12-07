@@ -16,6 +16,10 @@ namespace graphx{
         inline void activate() { glUseProgram(m_ShaderProgram); }
         inline GLuint getShader() { return m_ShaderProgram; }
 
+        void setBool(const char * name, bool value);
+        void setInt(const char * name, int value);
+        void setFloat(const char * name, float value);
+
     private:
         std::string m_VertexSource;
         std::string m_FragmentSource;
