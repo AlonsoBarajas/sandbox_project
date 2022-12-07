@@ -16,12 +16,12 @@ find_package(OpenGL REQUIRED)
 
 
 # Add executable files
-SET(SOURCE_FILES src/main.cpp src/graphics/window.cpp)
+SET(SOURCE_FILES src/main.cpp src/graphics/window.cpp src/utils/fileutils.cpp)
 SET(EXERCISE_FILES src/exercises/1.getting_started/hello_triangle_exercise3.cpp src/graphics/window.cpp)
 # Exercises
 # src/exercises/1.getting_started/hello_triangle_exercise2.cpp
 
-add_executable(${PROJECT_NAME} ${EXERCISE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 
 # Linking libraries

@@ -1,9 +1,12 @@
-
+#include "utils/fileutils.h"
 #include "graphics/window.h"
 #include <iostream>
 
 int main (void){
 
+    std::string test = read_file("../shaders/basics.frag");
+
+    std::cout << test << std::endl;
 
     graphx::Window win("Hello james", 640, 480);
 

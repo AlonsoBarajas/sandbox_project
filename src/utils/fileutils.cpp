@@ -8,7 +8,7 @@ std::string read_file(const char* filename){
 
     // if file was not correctly opened return an empty string
     if(!f){
-        std::cerr << "Was not able to open file "<< filename << "\n"; 
+std::cerr << "Was not able to open file "<< filename << "\n"; 
         return "";
     }
 
