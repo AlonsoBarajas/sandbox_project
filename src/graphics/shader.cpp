@@ -60,12 +60,12 @@ std::cerr << "Error creating fragment shader\n";
         glCompileShader(fragment);
 
         if(errorCheck(vertex, GL_COMPILE_STATUS)){
-std::cerr << "Vertex compilation failed\n"; 
+std::cerr << "Vertex compilation failed!\n"; 
             glDeleteShader(vertex);
             return false;
         }    
         if(errorCheck(fragment, GL_COMPILE_STATUS)){
-std::cerr << "Fragment compilation failed\n"; 
+std::cerr << "Fragment compilation failed!\n"; 
             glDeleteShader(fragment);
             return false;
         }
@@ -86,7 +86,7 @@ std::cerr << "Error creating shader program\n";
         glLinkProgram(m_ShaderProgram);
 
         if(errorCheck(m_ShaderProgram, GL_LINK_STATUS)){
-std::cerr << "Linker failed\n"; 
+std::cerr << "Linker failed!\n"; 
             glDeleteProgram(m_ShaderProgram);
             return false;
         } 
