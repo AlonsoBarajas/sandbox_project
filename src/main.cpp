@@ -2,6 +2,7 @@
 #include "graphics/window.h"
 #include "graphics/shader.h"
 #include <iostream>
+#include <math.h>
 
 int main (void){
 
@@ -9,7 +10,7 @@ int main (void){
 
     graphx::Window win("Hello james", 640, 480);
 
-    graphx::Shader shader("../shaders/basics.vert", "../shaders/basics.frag");
+    graphx::Shader shader("../shaders/basics.vert", "../shaders/basics.uniform.frag");
 
     shader.compile();
 
@@ -76,8 +77,16 @@ int main (void){
     while (!win.closed()){
         win.clear();
 
+        // generate a variable color
+        GLfloat time = glfwGetTime();
+        GLfloat redChannel = sin(time)/2.0f + 0.5f;
+        
+        // retrieve uniform location
+        GLint colorLoc = glGetUniformLocation(shader.getShader(), "myColor");
+
         // render loop
         shader.activate();
+        glUniform4f(colorLoc, redChannel, 0.5f, 0.2f, 1.0f);
 
         glBindVertexArray(VAO[1]);
         glDrawArrays(GL_TRIANGLES, 0, 6);
