@@ -6,11 +6,9 @@
 
 int main (void){
 
-    std::string test = read_file("../shaders/basics.frag");
-
     graphx::Window win("Hello james", 640, 480);
 
-    graphx::Shader shader("../shaders/basics.vert", "../shaders/basics.uniform.frag");
+    graphx::Shader shader("../../../shaders/basics.vert", "../../../shaders/basics.uniform.frag");
 
     shader.compile();
 
