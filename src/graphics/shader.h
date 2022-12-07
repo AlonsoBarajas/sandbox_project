@@ -14,7 +14,7 @@ namespace graphx{
         bool compile();
 
         inline void activate() { glUseProgram(m_ShaderProgram); }
-
+        inline GLuint getShader() { return m_ShaderProgram; }
 
     private:
         std::string m_VertexSource;
