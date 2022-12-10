@@ -51,14 +51,24 @@ std::cerr<<"Failed to load texture\n";
     // definition of the triangle vertices // Position and color attributes
     GLfloat vertices[] = {
         // Position          // Color           // Texture
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,                 // lower left corner
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,                // lower right corner
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.5f, 1.0f                   // top
+        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,     // lower left
+         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,     // lower right
+        -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 1.0f,     // top left
+         0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f      // top right
+    };
+
+    GLint indices[] = {
+        0,1,2,
+        1,3,2
     };
 
     // create a vertex buffer object VBO
     GLuint VBO;
     glGenBuffers(1 , &VBO);
+
+    // create an element buffer object
+    GLuint EBO;
+    glGenBuffers(1, &EBO);
 
     // create Vertex Attribute Object
     GLuint VAO;
@@ -73,8 +83,14 @@ std::cerr<<"Failed to load texture\n";
     // this copies the data of the vertices into the currently bound array buffer i.e. VBO
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // tell OpenGL how to interpret the vertex attributes
+    // bind EBO to the current array buffer
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
+    // pass the indeces to the buffer
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLfloat), indices, GL_STATIC_DRAW);
+
+
+    // tell OpenGL how to interpret the vertex attributes
     // position attributes
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)0);
     // color attributes
@@ -102,13 +118,13 @@ std::cerr<<"Failed to load texture\n";
         // render loop
         shader.activate();
         glUniform4f(colorLoc, redChannel, 0.5f, 0.2f, 1.0f);
-        shader.setFloat("xOffset", redChannel);
+        //shader.setFloat("xOffset", redChannel);
 
         glBindTexture(GL_TEXTURE_2D, texture);
         glBindVertexArray(VAO);
 
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
 
         win.update();
     }
