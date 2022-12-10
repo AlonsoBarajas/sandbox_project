@@ -6,30 +6,27 @@
 namespace graphx{
 
     class Shader{
+        public:
+            Shader(const char * vertexFile, const char * fragmentFile);
+            ~Shader();
 
-    public:
-        Shader(const char * vertexFile, const char * fragmentFile);
-        ~Shader();
+            bool compile();
 
-        bool compile();
+            inline void activate() { glUseProgram(m_ShaderProgram); }
+            inline GLuint getShader() { return m_ShaderProgram; }
 
-        inline void activate() { glUseProgram(m_ShaderProgram); }
-        inline GLuint getShader() { return m_ShaderProgram; }
+            void setBool(const char * name, bool value);
+            void setInt(const char * name, int value);
+            void setFloat(const char * name, float value);
 
-        void setBool(const char * name, bool value);
-        void setInt(const char * name, int value);
-        void setFloat(const char * name, float value);
+        private:
+            std::string m_VertexSource;
+            std::string m_FragmentSource;
 
-    private:
-        std::string m_VertexSource;
-        std::string m_FragmentSource;
+            GLuint m_ShaderProgram;
 
-        GLuint m_ShaderProgram;
-
-        bool init(const char * vertexFile, const char * fragmentFile);
-        bool errorCheck(GLuint ID, GLenum status);
-
-
+            bool init(const char * vertexFile, const char * fragmentFile);
+            bool errorCheck(GLuint ID, GLenum status);
     };
 
 }

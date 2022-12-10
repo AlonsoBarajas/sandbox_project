@@ -18,7 +18,7 @@ int main (void){
 
     // definition of the triangle vertices // Position and color attributes
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,     // lower left corner
+        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,    // lower left corner
          0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // lower right corner
          0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top
     };

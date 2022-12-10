@@ -8,14 +8,7 @@ namespace graphx{
     constexpr int MIN_WINDOW_HEIGHT = 480;
     constexpr int MIN_WINDOW_WIDTH = 640;
     class Window{
-        private:
-            GLFWwindow * m_Window;
 
-            int m_Width;
-            int m_Height;
-            const char * m_Title;
-
-        // public member functions
         public:
             Window(const char * title, int width, int height);
             ~Window();
@@ -28,9 +21,15 @@ namespace graphx{
             inline void setHeight(int height){ m_Height = height; }
             inline void setWidth(int width){ m_Width = width; }
 
-        // private member functions
         private:
             bool init();
+
+        private:
+            GLFWwindow * m_Window;
+
+            int m_Width;
+            int m_Height;
+            const char * m_Title;
 
     }; // Window
 
