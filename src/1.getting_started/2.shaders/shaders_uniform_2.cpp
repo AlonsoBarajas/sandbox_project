@@ -1,6 +1,6 @@
-#include "utils/fileutils.h"
-#include "graphics/window.h"
-#include "graphics/shader.h"
+#include "../../utils/fileutils.h"
+#include "../../graphics/window.h"
+#include "../../graphics/shader.h"
 #include <iostream>
 #include <math.h>
 
