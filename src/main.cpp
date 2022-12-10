@@ -1,16 +1,48 @@
 #include "utils/fileutils.h"
+#include "utils/stb_image.h"
 #include "graphics/window.h"
 #include "graphics/shader.h"
 #include <iostream>
 #include <math.h>
 
+
 int main (void){
 
     graphx::Window win("Hello james", 640, 480);
 
-    graphx::Shader shader("../shaders/basics.loccol.vert", "../shaders/basics.loccol.frag");
+    graphx::Shader shader("../shaders/texture.vs", "../shaders/texture.fs");
 
     shader.compile();
+
+
+
+    // Create texture ID
+    GLuint texture;
+    glGenTextures(1, &texture);
+    
+    // Bind texture
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // Texture options wrapping/filtering
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Load image
+    GLint width, height, nrChannels;
+    unsigned char * data = stbi_load("../assets/container.jpg", &width, &height, &nrChannels, 0);
+
+    if(data){
+        // Load the texture to OpenGL
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    } else 
+std::cerr<<"Failed to load texture\n";
+
+    // Release data memory from image
+    stbi_image_free(data);
+
 
     ///////////////////////////////////////////////////////////////////
     //              Create Vertext Buffer Object VBO
@@ -18,9 +50,10 @@ int main (void){
 
     // definition of the triangle vertices // Position and color attributes
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,    // lower left corner
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // lower right corner
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top
+        // Position          // Color           // Texture
+        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,                 // lower left corner
+         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,                // lower right corner
+         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.5f, 1.0f                   // top
     };
 
     // create a vertex buffer object VBO
@@ -43,14 +76,16 @@ int main (void){
     // tell OpenGL how to interpret the vertex attributes
 
     // position attributes
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)0);
     // color attributes
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3*sizeof(GLfloat)));
-
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3*sizeof(GLfloat)));
+    // texture attributes
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (void*)(6*sizeof(GLfloat)));
 
     // enables the vertex attributes
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
 
 
@@ -69,7 +104,9 @@ int main (void){
         glUniform4f(colorLoc, redChannel, 0.5f, 0.2f, 1.0f);
         shader.setFloat("xOffset", redChannel);
 
+        glBindTexture(GL_TEXTURE_2D, texture);
         glBindVertexArray(VAO);
+
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
