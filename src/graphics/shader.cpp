@@ -120,6 +120,19 @@ std::cerr << "Attribute " << name << "was not found\n";
         glUniform1f(uniformLoc, value);
     }
 
+    void Shader::setInt(const char * name, int value){
+        GLint uniformLoc = glGetUniformLocation(m_ShaderProgram, name);
+
+        if(uniformLoc == -1){
+std::cerr << "Attribute " << name << "was not found\n";
+            return;
+        }
+
+        glUniform1i(uniformLoc, value);
+    }
+
+
+
     bool Shader::errorCheck(GLuint ID, GLenum status){
         GLint success;
         GLchar infoLog[512];

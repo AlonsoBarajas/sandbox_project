@@ -16,34 +16,7 @@ int main (void){
 
 
 
-    // Create texture ID
-    GLuint texture;
-    glGenTextures(1, &texture);
-    
-    // Bind texture
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    // Texture options wrapping/filtering
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // Load image
-    GLint width, height, nrChannels;
-    unsigned char * data = stbi_load("../assets/container.jpg", &width, &height, &nrChannels, 0);
-
-    if(data){
-        // Load the texture to OpenGL
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    } else 
-std::cerr<<"Failed to load texture\n";
-
-    // Release data memory from image
-    stbi_image_free(data);
-
-
+  
     ///////////////////////////////////////////////////////////////////
     //              Create Vertext Buffer Object VBO
     ///////////////////////////////////////////////////////////////////
@@ -103,6 +76,62 @@ std::cerr<<"Failed to load texture\n";
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
+        
+    // Create texture ID
+    GLuint texture[2];
+    glGenTextures(2, texture);
+    
+    // Bind texture  
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
+
+    // Texture options wrapping/filtering
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Load image
+    GLint width, height, nrChannels;
+    unsigned char * data = stbi_load("../assets/container.jpg", &width, &height, &nrChannels, 0);
+
+    if(data){
+        // Load the texture to OpenGL
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    } else 
+std::cerr<<"Failed to load texture\n";
+
+
+    // Release data memory from image
+    stbi_image_free(data);
+
+    glBindTexture(GL_TEXTURE_2D, texture[1]);
+
+    // Texture options wrapping/filtering
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    stbi_set_flip_vertically_on_load(true);
+    data = stbi_load("../assets/awesomeface.png", &width, &height, &nrChannels, 0);
+
+    if(data){
+        // Load the texture to OpenGL
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    } else 
+std::cerr<<"Failed to load texture\n";
+
+    // Release data memory from image
+    stbi_image_free(data);
+
+
+
+
+    shader.activate();
+    shader.setInt("texture1", 0);
+    shader.setInt("texture2", 1);
 
 
     while (!win.closed()){
@@ -115,12 +144,17 @@ std::cerr<<"Failed to load texture\n";
         // retrieve uniform location
         GLint colorLoc = glGetUniformLocation(shader.getShader(), "myColor");
         
-        // render loop
-        shader.activate();
+        
+
         glUniform4f(colorLoc, redChannel, 0.5f, 0.2f, 1.0f);
         //shader.setFloat("xOffset", redChannel);
+        
+        shader.activate();
+        for (size_t i = 0; i < 2 ; ++i){
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, texture[i]);
+        }
 
-        glBindTexture(GL_TEXTURE_2D, texture);
         glBindVertexArray(VAO);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
