@@ -21,6 +21,8 @@ namespace graphx{
             inline void setHeight(int height){ m_Height = height; }
             inline void setWidth(int width){ m_Width = width; }
 
+            // getters
+            inline GLFWwindow * getWindowPointer() { return m_Window; }
         private:
             bool init();
 

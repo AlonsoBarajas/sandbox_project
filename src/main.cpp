@@ -5,10 +5,16 @@
 #include <iostream>
 #include <math.h>
 
+void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods);
+
+float globMix = 0.2;
 
 int main (void){
 
     graphx::Window win("Hello james", 640, 480);
+
+    glfwSetKeyCallback( win.getWindowPointer(), key_callback);
+
 
     graphx::Shader shader("../shaders/texture.vs", "../shaders/texture.fs");
 
@@ -24,10 +30,10 @@ int main (void){
     // definition of the triangle vertices // Position and color attributes
     GLfloat vertices[] = {
         // Position          // Color           // Texture
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,     // lower left
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,     // lower right
-        -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 1.0f,     // top left
-         0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f      // top right
+        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.45f, 0.45f,     // lower left
+         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  0.55f, 0.45f,     // lower right
+        -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.45f, 0.55f,     // top left
+         0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.55f, 0.55f      // top right
     };
 
     GLint indices[] = {
@@ -110,8 +116,8 @@ std::cerr<<"Failed to load texture\n";
     // Texture options wrapping/filtering
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     stbi_set_flip_vertically_on_load(true);
     data = stbi_load("../assets/awesomeface.png", &width, &height, &nrChannels, 0);
@@ -125,9 +131,6 @@ std::cerr<<"Failed to load texture\n";
 
     // Release data memory from image
     stbi_image_free(data);
-
-
-
 
     shader.activate();
     shader.setInt("texture1", 0);
@@ -149,7 +152,10 @@ std::cerr<<"Failed to load texture\n";
         glUniform4f(colorLoc, redChannel, 0.5f, 0.2f, 1.0f);
         //shader.setFloat("xOffset", redChannel);
         
+        shader.setFloat("linearBlend", globMix);
+
         shader.activate();
+
         for (size_t i = 0; i < 2 ; ++i){
             glActiveTexture(GL_TEXTURE0 + i);
             glBindTexture(GL_TEXTURE_2D, texture[i]);
@@ -164,4 +170,14 @@ std::cerr<<"Failed to load texture\n";
     }
 
     return 0;
+}
+
+
+
+void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods){
+    if(key == GLFW_KEY_W && action == GLFW_PRESS)
+        globMix = globMix < 1.0f ? globMix + 0.1 : 1.0f;
+    if(key == GLFW_KEY_S && action == GLFW_PRESS)
+        globMix = globMix > 0.0f ? globMix - 0.1 : 0.0f;
+    return;
 }
