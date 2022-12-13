@@ -10,6 +10,10 @@ namespace graphx{
             glfwTerminate();
     }
 
+    Window::~Window(){
+        glfwTerminate();
+    }
+
     bool Window::init(){
         
         // initialize GLFW
@@ -27,25 +31,17 @@ namespace graphx{
             return false;
         }
 
-        // set minimum window size
-        glfwSetWindowSizeLimits(m_Window, MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
-        // tell OpenGL what is the window size
+        glfwSetWindowSizeLimits(m_Window, MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT, GLFW_DONT_CARE, GLFW_DONT_CARE);
         glViewport(0,0,m_Width, m_Height);
 
-        // bind GLFW window to an object of the Window class
         glfwSetWindowUserPointer(m_Window, this);
-
-        // bind resize function to GLFW callback
         glfwSetFramebufferSizeCallback(m_Window, window_resize_callback);
-
-        // bind key callback function
         glfwSetKeyCallback(m_Window, input::key_callback);
+        glfwSetCursorPosCallback(m_Window, input::cursor_position_callback);
 
-        // make the window the current OpenGL context
         glfwMakeContextCurrent(m_Window);
 
-        // initialize GLEW
         if(glewInit() != GLEW_OK){
     std::cerr << "GLEW was not loaded correctly. Exiting ...\n";
             return false;
@@ -65,10 +61,13 @@ namespace graphx{
         glfwPollEvents();
     }
 
-    Window::~Window(){
-        glfwTerminate();
+    void Window::getCursorPosition(float & x, float & y)
+    {
+        m_Mouse.getXY(x,y);
+        x = 2 * (x/m_Width) - 1;
+        y = (1 - 2 * (y/m_Height));
     }
-
+    
     void window_resize_callback(GLFWwindow * win, int width, int height){
         Window* window = (Window*)glfwGetWindowUserPointer(win);
 
@@ -77,4 +76,5 @@ namespace graphx{
 
         glViewport(0,0, width, height);        
     }
+
 }

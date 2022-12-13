@@ -33,7 +33,7 @@ namespace graphx{
             // getters
             inline GLFWwindow * getWindowPointer() { return m_Window; }
             inline bool isKeyPressed(int key){ return m_Keyboard.isKeyPressed(key); }
-
+            void getCursorPosition(float & x, float & y);
         private:
             bool init();
 

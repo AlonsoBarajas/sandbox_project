@@ -154,15 +154,17 @@ std::cerr<<"Failed to load texture\n";
         glUniform4f(colorLoc, redChannel, 0.5f, 0.2f, 1.0f);
         
 
-        if(win.isKeyPressed(GLFW_KEY_W))
-            posy += 0.01f;
-        if(win.isKeyPressed(GLFW_KEY_S))
-            posy -= 0.01f;        
-        if(win.isKeyPressed(GLFW_KEY_D))
-            posx += 0.01f;
-        if(win.isKeyPressed(GLFW_KEY_A))
-            posx -= 0.01f;
+        // if(win.isKeyPressed(GLFW_KEY_W))
+        //     posy += 0.01f;
+        // if(win.isKeyPressed(GLFW_KEY_S))
+        //     posy -= 0.01f;        
+        // if(win.isKeyPressed(GLFW_KEY_D))
+        //     posx += 0.01f;
+        // if(win.isKeyPressed(GLFW_KEY_A))
+        //     posx -= 0.01f;
         
+        win.getCursorPosition(posx, posy);
+
         int loc = glGetUniformLocation(shader.getShader(), "pos");
         glUniform2f(loc, posx, posy);
 
