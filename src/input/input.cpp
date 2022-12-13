@@ -1,5 +1,6 @@
 #include "input.h"
 
+#include "../graphics/window.h"
 
 namespace input
 {
@@ -15,6 +16,19 @@ namespace input
     }
 
 
+    Mouse::Mouse()
+    {
+        clearMouse();
+    }
+
+    void Mouse::clearMouse()
+    {
+        for (bool& button: m_Buttons)
+            button = false;
+    }
+
+    // Input callbacks
+
     void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods)
     {
         graphx::Window* window = (graphx::Window*)glfwGetWindowUserPointer(win);
@@ -25,4 +39,10 @@ namespace input
             window->m_Keyboard.m_Keys[key] = false;
     }
 
+    void cursor_position_callback(GLFWwindow * win, double xpos, double ypos){
+        graphx::Window* window = (graphx::Window*)glfwGetWindowUserPointer(win);
+
+        window->m_Mouse.m_X = xpos;
+        window->m_Mouse.m_Y = ypos;
+    }
 }

@@ -11,7 +11,7 @@ float globMix = 0.2;
 
 int main (void){
 
-    graphx::Window win("Hello james", 640, 480);
+    graphx::Window win("Hello james", 1920, 1080);
 
     //glfwSetKeyCallback( win.getWindowPointer(), key_callback);
 
@@ -30,10 +30,10 @@ int main (void){
     // definition of the triangle vertices // Position and color attributes
     GLfloat vertices[] = {
         // Position          // Color           // Texture
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.45f, 0.45f,     // lower left
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  0.55f, 0.45f,     // lower right
-        -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.45f, 0.55f,     // top left
-         0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.55f, 0.55f      // top right
+        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,     // lower left
+         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,     // lower right
+        -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 1.0f,     // top left
+         0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f      // top right
     };
 
     GLint indices[] = {

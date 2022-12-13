@@ -8,6 +8,7 @@
 
 namespace input{
     void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
+    void cursor_position_callback(GLFWwindow * win, double xpos, double ypos);
 }
 
 namespace graphx{
@@ -32,6 +33,7 @@ namespace graphx{
             // getters
             inline GLFWwindow * getWindowPointer() { return m_Window; }
             inline bool isKeyPressed(int key){ return m_Keyboard.isKeyPressed(key); }
+
         private:
             bool init();
 
@@ -44,9 +46,12 @@ namespace graphx{
             const char * m_Title;
 
             input::Keyboard m_Keyboard;
+            input::Mouse m_Mouse;
 
-            friend void input::key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
             friend void window_resize_callback(GLFWwindow * win, int widht, int height);
+            friend void input::key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
+            friend void input::cursor_position_callback(GLFWwindow * win, double xpos, double ypos);
+            
     }; // Window
 
     void window_resize_callback(GLFWwindow * win, int widht, int height);

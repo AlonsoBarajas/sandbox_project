@@ -3,13 +3,9 @@ PROJECT(sandbox)
 
 # Find and link required packages
 
-# GLFW
+
 find_package(glfw3 3.3 REQUIRED)
-
-# GLEW
 find_package(GLEW REQUIRED)
-
-# OpenGL
 find_package(OpenGL REQUIRED)
 
 
@@ -18,8 +14,8 @@ find_package(OpenGL REQUIRED)
 # Add executable files
 SET(SOURCE_FILES src/main.cpp 
     src/graphics/window.cpp 
-    src/graphics/shader.cpp  
     src/input/input.cpp 
+    src/graphics/shader.cpp  
     src/utils/fileutils.cpp 
     src/utils/stb_image.cpp)
 
