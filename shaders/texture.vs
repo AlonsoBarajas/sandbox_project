@@ -7,9 +7,11 @@ layout (location = 2) in vec2 aTexture;
 out vec3 myColor;
 out vec2 texCoor;
 
+uniform vec2 pos;
+
 void main()
 {
-gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);
+gl_Position = vec4(aPos.x + pos.x, aPos.y + pos.y, aPos.z, 1.0f);
 
 myColor = aColor;
 

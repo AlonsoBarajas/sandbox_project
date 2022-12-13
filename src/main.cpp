@@ -13,7 +13,7 @@ int main (void){
 
     graphx::Window win("Hello james", 640, 480);
 
-    glfwSetKeyCallback( win.getWindowPointer(), key_callback);
+    //glfwSetKeyCallback( win.getWindowPointer(), key_callback);
 
 
     graphx::Shader shader("../shaders/texture.vs", "../shaders/texture.fs");
@@ -136,6 +136,8 @@ std::cerr<<"Failed to load texture\n";
     shader.setInt("texture1", 0);
     shader.setInt("texture2", 1);
 
+    float posx = 0.0f;
+    float posy = 0.0f;
 
     while (!win.closed()){
         win.clear();
@@ -150,8 +152,20 @@ std::cerr<<"Failed to load texture\n";
         
 
         glUniform4f(colorLoc, redChannel, 0.5f, 0.2f, 1.0f);
-        //shader.setFloat("xOffset", redChannel);
         
+
+        if(win.isKeyPressed(GLFW_KEY_W))
+            posy += 0.01f;
+        if(win.isKeyPressed(GLFW_KEY_S))
+            posy -= 0.01f;        
+        if(win.isKeyPressed(GLFW_KEY_D))
+            posx += 0.01f;
+        if(win.isKeyPressed(GLFW_KEY_A))
+            posx -= 0.01f;
+        
+        int loc = glGetUniformLocation(shader.getShader(), "pos");
+        glUniform2f(loc, posx, posy);
+
         shader.setFloat("linearBlend", globMix);
 
         shader.activate();

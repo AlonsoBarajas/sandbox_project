@@ -3,10 +3,15 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "../input/input.h"
+
 namespace graphx{
 
     constexpr int MIN_WINDOW_HEIGHT = 480;
     constexpr int MIN_WINDOW_WIDTH = 640;
+
+    constexpr int MAX_KEYS = 1024;
+
     class Window{
 
         public:
@@ -23,8 +28,10 @@ namespace graphx{
 
             // getters
             inline GLFWwindow * getWindowPointer() { return m_Window; }
+            inline bool isKeyPressed(int key){ return m_Keyboard.isKeyPressed(key); }
         private:
             bool init();
+
 
         private:
             GLFWwindow * m_Window;
@@ -33,8 +40,13 @@ namespace graphx{
             int m_Height;
             const char * m_Title;
 
+            input::Keyboard m_Keyboard;
+
+            friend void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
+            friend void window_resize_callback(GLFWwindow * win, int widht, int height);
     }; // Window
 
     void window_resize_callback(GLFWwindow * win, int widht, int height);
+    void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
 
 }

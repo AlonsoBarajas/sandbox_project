@@ -16,7 +16,7 @@ find_package(OpenGL REQUIRED)
 
 
 # Add executable files
-SET(SOURCE_FILES src/main.cpp src/graphics/window.cpp src/graphics/shader.cpp  src/utils/fileutils.cpp src/utils/stb_image.cpp)
+SET(SOURCE_FILES src/main.cpp src/graphics/window.cpp src/graphics/shader.cpp  src/input/input.cpp src/utils/fileutils.cpp src/utils/stb_image.cpp)
 SET(EXERCISE_FILES src/exercises/1.getting_started/hello_triangle_exercise3.cpp src/graphics/window.cpp)
 # Exercises
 # src/exercises/1.getting_started/hello_triangle_exercise2.cpp

@@ -6,7 +6,8 @@ namespace graphx{
     Window::Window(const char * title, int width, int height):
         m_Title(title), m_Width(width), m_Height(height)
     {
-        if(!init()) glfwTerminate;
+        if(!init()) 
+            glfwTerminate();
     }
 
     bool Window::init(){
@@ -38,6 +39,9 @@ namespace graphx{
         // bind resize function to GLFW callback
         glfwSetFramebufferSizeCallback(m_Window, window_resize_callback);
 
+        // bind key callback function
+        glfwSetKeyCallback(m_Window, key_callback);
+
         // make the window the current OpenGL context
         glfwMakeContextCurrent(m_Window);
 
@@ -56,8 +60,6 @@ namespace graphx{
     }
 
     void Window::update(){
-
-
         glfwSwapBuffers(m_Window);
 
         glfwPollEvents();
@@ -70,10 +72,19 @@ namespace graphx{
     void window_resize_callback(GLFWwindow * win, int width, int height){
         Window* window = (Window*)glfwGetWindowUserPointer(win);
 
-        window->setHeight(height);
-        window->setWidth(width);
+        window->m_Height = height;
+        window->m_Width = width;
 
         glViewport(0,0, width, height);        
+    }
+
+    void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods){
+        Window* window = (Window*)glfwGetWindowUserPointer(win);
+
+        if(action == GLFW_PRESS)
+            window->m_Keyboard.m_Keys[key] = true;
+        else if(action == GLFW_RELEASE)
+            window->m_Keyboard.m_Keys[key] = false;
     }
 
 
