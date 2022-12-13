@@ -1,13 +1,14 @@
 #pragma once
 
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-namespace graphx{
-    void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
-}
+#include "../graphics/window.h"
 
 namespace input
 {
+    void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
+
     constexpr int MAX_KEYS = 1024;
 
     class Keyboard{
@@ -20,7 +21,24 @@ namespace input
             bool m_Keys[MAX_KEYS];
             void clearKeys();
 
-            friend void graphx::key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
+            friend void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
+    };
+
+    class Mouse{
+        public:
+            Mouse();
+        
+        private:
+
+    };
+
+    class Controller{
+        public:
+            Controller();
+
+        private:
+
+
     };
 }
 

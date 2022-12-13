@@ -5,12 +5,15 @@
 
 #include "../input/input.h"
 
+
+namespace input{
+    void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
+}
+
 namespace graphx{
 
     constexpr int MIN_WINDOW_HEIGHT = 480;
     constexpr int MIN_WINDOW_WIDTH = 640;
-
-    constexpr int MAX_KEYS = 1024;
 
     class Window{
 
@@ -42,11 +45,10 @@ namespace graphx{
 
             input::Keyboard m_Keyboard;
 
-            friend void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
+            friend void input::key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
             friend void window_resize_callback(GLFWwindow * win, int widht, int height);
     }; // Window
 
     void window_resize_callback(GLFWwindow * win, int widht, int height);
-    void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods);
 
 }

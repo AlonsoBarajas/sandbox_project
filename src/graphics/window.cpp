@@ -40,7 +40,7 @@ namespace graphx{
         glfwSetFramebufferSizeCallback(m_Window, window_resize_callback);
 
         // bind key callback function
-        glfwSetKeyCallback(m_Window, key_callback);
+        glfwSetKeyCallback(m_Window, input::key_callback);
 
         // make the window the current OpenGL context
         glfwMakeContextCurrent(m_Window);
@@ -77,15 +77,4 @@ namespace graphx{
 
         glViewport(0,0, width, height);        
     }
-
-    void key_callback(GLFWwindow * win, int key, int scancode, int action, int mods){
-        Window* window = (Window*)glfwGetWindowUserPointer(win);
-
-        if(action == GLFW_PRESS)
-            window->m_Keyboard.m_Keys[key] = true;
-        else if(action == GLFW_RELEASE)
-            window->m_Keyboard.m_Keys[key] = false;
-    }
-
-
 }
